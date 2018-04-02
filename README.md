@@ -10,8 +10,9 @@
 
 例如可以定义一个大厅上消息按钮的点击事件为OnNoticeBtnClick,消息按钮在大厅中的HeaderFragment的view tree中，这样HeaderFragment可以通过EventManager注册自己为OnNoticeBtnClick的发布者，而需要对此消息响应的各级Fragment可以实现OnNoticeBtnClick此接口，并通过EventManager注册为OnNoticeBtnClick的订阅者，这样在消息按钮点击的时候，各层级的Fragment订阅者就能同步收到点击事件了，当然为了高效EventManager只支持主线程操作
 ```
-puiblic interface OnNoticeBtnClick extends View.OnClickListener{
-	
+puiblic interface OnNoticeBtnClick{
+	void onClick(View view);
+	default void onLongClick(View view){}
 }
 ```
 ```
