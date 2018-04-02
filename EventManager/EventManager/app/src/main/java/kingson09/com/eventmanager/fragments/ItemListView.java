@@ -18,18 +18,20 @@ import kingson09.com.eventmanager.R;
  */
 
 public class ItemListView extends ListView {
-  private IShowDetail containerHandler;
+  private EventManager eventManager = EventManager.getEventManager("NewsActivity");
+  private IShowDetail containerPublisher;
   private SimpleAdapter adapter;
-  List<Map<String, Object>> list;
+  private List<Map<String, Object>> list;
 
   public ItemListView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    containerHandler = EventManager.registerPublisher(IShowDetail.class);
+    containerPublisher = eventManager.registerPublisher(IShowDetail.class);
   }
 
   public void setData(List<Map<String, Object>> data) {
     list = data;
-    adapter = new SimpleAdapter(getContext(), list, R.layout.list_item, new String[] { "article" }, new int[] { R.id.text });
+    adapter =
+        new SimpleAdapter(getContext(), list, R.layout.list_item, new String[] { "article" }, new int[] { R.id.text });
     setAdapter(adapter);
   }
 
@@ -39,8 +41,8 @@ public class ItemListView extends ListView {
     setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Map<String, Object> item = (Map)adapter.getItem(position);
-        containerHandler.showItem((String) item.get("article"));
+        Map<String, Object> item = (Map) adapter.getItem(position);
+        containerPublisher.showItem((String) item.get("article"));
       }
     });
   }

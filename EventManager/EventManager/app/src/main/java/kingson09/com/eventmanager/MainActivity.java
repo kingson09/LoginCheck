@@ -21,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    EventManager.removeEventManager("NewsActivity");
+  }
+
   private List<Map<String, Object>> buildListForSimpleAdapter() {
     List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
     Map<String, Object> map = new HashMap<String, Object>();

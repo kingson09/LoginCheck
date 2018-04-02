@@ -11,14 +11,16 @@ import kingson09.com.eventmanager.EventManager;
  */
 
 public class MyDetailView extends TextView implements IShowDetail, IBackPressed {
+  private EventManager eventManager = EventManager.getEventManager("NewsActivity");
+
   public MyDetailView(Context context) {
     super(context);
-    EventManager.registerSubscriber(IShowDetail.class,this);
+    eventManager.registerSubscriber(IShowDetail.class, this);
   }
 
   public MyDetailView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    EventManager.registerSubscriber(IShowDetail.class,this);
+    eventManager.registerSubscriber(IShowDetail.class, this);
   }
 
   @Override

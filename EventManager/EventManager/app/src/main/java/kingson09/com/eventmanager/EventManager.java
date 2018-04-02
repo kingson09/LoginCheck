@@ -11,20 +11,47 @@ import java.util.HashMap;
  */
 
 public class EventManager {
-  private static HashMap<Class, EventProxy> eventMap = new HashMap();
-  private static HashMap<Class, Object> observablesMap = new HashMap();
+  private final static HashMap<String, EventManager> managerMap = new HashMap<>();
 
-  public static <T> boolean registerSubscriber(Class<T> eventContract, T observer) {
+  public static EventManager getEventManager(String name) {
+    EventManager eventManager = managerMap.get(name);
+    if (eventManager == null) {
+      eventManager = new EventManager();
+      managerMap.put(name, eventManager);
+    }
+    return eventManager;
+  }
+
+  public static EventManager removeEventManager(String name) {
+    EventManager eventManager = managerMap.remove(name);
+    return eventManager;
+  }
+
+  private HashMap<Class, EventProxy> eventMap = new HashMap();
+  private HashMap<Class, Object> observablesMap = new HashMap();
+
+  public <T> boolean registerSubscriber(Class<T> eventContract, T observer) {
     EventProxy proxy = eventMap.get(eventContract);
     if (proxy == null) {
       proxy = new EventProxy();
       eventMap.put(eventContract, proxy);
     }
-    proxy.registerObserver(observer);
+    proxy.registerSubscriber(observer);
     return true;
   }
 
-  public static <T> T registerPublisher(Class<T> eventContract) {
+  public <T> boolean unRegisterSubscriber(Class<T> eventContract, T observer) {
+    EventProxy proxy = eventMap.get(eventContract);
+    if (proxy == null) {
+      return true;
+    }
+    if (proxy.unRegisterSubscriber(observer)) {
+      eventMap.remove(eventContract);
+    }
+    return true;
+  }
+
+  public <T> T registerPublisher(Class<T> eventContract) {
 
     EventProxy proxy = eventMap.get(eventContract);
     if (proxy == null) {
@@ -48,11 +75,16 @@ public class EventManager {
     protected EventProxy() {
     }
 
-    protected void registerObserver(Object observer) {
+    protected void registerSubscriber(Object observer) {
       if (observers.contains(observer)) {
         return;
       }
       observers.add(observer);
+    }
+
+    protected boolean unRegisterSubscriber(Object observer) {
+      observers.remove(observer);
+      return observers.isEmpty();
     }
 
     @Override
