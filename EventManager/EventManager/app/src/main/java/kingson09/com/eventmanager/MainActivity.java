@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    EventManager.removeEventManager("NewsActivity");
+    EventManager.removeEventManager(this);
   }
 
   private List<Map<String, Object>> buildListForSimpleAdapter() {

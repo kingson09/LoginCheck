@@ -32,7 +32,7 @@ public void onClick(View view) {
   }
 
 ```
-最后，最好一个Activity或者Fragment使用一个EventManager实例，切记在onDestory中进行反注册
+最后，为便于使用并且避免内存泄漏，最好使用EventManager.getEventManager(getContext())方式获得EventManager实例，切记在onDestory中注销此实例，EventManager.removeEventManager(this);
 
 #CountDownLatchBitVector
 结合CountDownLatch和BitVector特点，编写的CountDownLatchBitVector，由一个byte的8位最多支持同步8个状态，主要用于一个页面多个请求的同步

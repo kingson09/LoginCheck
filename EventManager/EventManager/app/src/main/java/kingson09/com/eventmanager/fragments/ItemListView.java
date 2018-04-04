@@ -18,7 +18,7 @@ import kingson09.com.eventmanager.R;
  */
 
 public class ItemListView extends ListView {
-  private EventManager eventManager = EventManager.getEventManager("NewsActivity");
+  private EventManager eventManager = EventManager.getEventManager(getContext());
   private IShowDetail containerPublisher;
   private SimpleAdapter adapter;
   private List<Map<String, Object>> list;

@@ -6,24 +6,26 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.Context;
+
 /**
  * Created by bjliuzhanyong on 2018/3/31.
  */
 
 public class EventManager {
-  private final static HashMap<String, EventManager> managerMap = new HashMap<>();
+  private final static HashMap<Context, EventManager> managerMap = new HashMap<>();
 
-  public static EventManager getEventManager(String name) {
-    EventManager eventManager = managerMap.get(name);
+  public static EventManager getEventManager(Context context) {
+    EventManager eventManager = managerMap.get(context);
     if (eventManager == null) {
       eventManager = new EventManager();
-      managerMap.put(name, eventManager);
+      managerMap.put(context, eventManager);
     }
     return eventManager;
   }
 
-  public static EventManager removeEventManager(String name) {
-    EventManager eventManager = managerMap.remove(name);
+  public static EventManager removeEventManager(Context context) {
+    EventManager eventManager = managerMap.remove(context);
     return eventManager;
   }
 
